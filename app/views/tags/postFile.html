@@ -14,7 +14,7 @@
                       * 'dropzone' : dropzone is available if supported, else input is used
                       * 'both' (default) : both are avalaible if supported 
   @param name (optional) : the name input value (default is set to 'file')
-  @param accept (optional) : accept mimetypes (all accept by default)
+  @param accept (optional) : accept mimetypes (all accept by default (set to 'Files') )
   @param dropzoneText (optional) : text to display into dropzone
   
   @author Renaudeau Gaetan <gre@zenexity.fr> - Zenexity - 2010
@@ -28,9 +28,9 @@
   hasBody = !!_body
   name = _name ?: 'file'
   
-  displayMode
+  accept = _accept ?: 'Files'
   
-  displayMode = 'input'
+  displayMode = _displayMode ?: 'both'
   
   dropzoneText = _dropzoneText ?: 'Drop file here...'
 }%
@@ -39,7 +39,7 @@
 #{form destUrl}
   <input type="file" name="${name}" #{if displayMode=='dropzone'}class="hideIfDropSupported"#{/if} />
   #{if displayMode!='input'}
-  <div class="dropzone">${dropzoneText}</div>
+  <div class="dropzone" accept="${accept}">${dropzoneText}</div>
   #{/if}
   #{if hasBody}
     #{doBody /}

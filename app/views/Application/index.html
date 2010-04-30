@@ -16,19 +16,20 @@
   color: red;
 }
 .dropzone {
+  margin: 5px;
   padding: 5px;
   border: #aaa 1px solid;
   background: #ccc;
 }
+.dropzone.filehover {
+  background: #eee;
+}
 </style>
 
 
-<div>
+<div style="width: 300px; margin: 0 auto;">
 <h2>Any file</h2>
 
-#{postFile destUrl: @Application.postFile() }
-  <img src="/public/images/postFileLoad.gif" class="postFileLoad" style="display: none;"/>
-  <div class="message"></div>
-#{/postFile}
+#{postFile destUrl: @Application.postFile() /}
 
 </div>
