@@ -1,0 +1,23 @@
+#{extends 'main.html' /}
+#{set title:'Home' /}
+
+#{set 'moreScripts'}
+  #{script 'postFile.js' /}
+#{/set}
+
+#{postFile 
+  name:'contact.photo', 
+  accept: ['image/jpeg', 'image/png'], 
+  destUrl: @Application.upload }
+  
+    <div id="visual" class="drop">Drop here</div>
+
+#{/postFile}
+
+
+<hr/>
+
+#{postFile 
+  name:'contact.photo', 
+  accept: ['image/jpeg', 'image/png'], 
+  destUrl: @Application.upload /}

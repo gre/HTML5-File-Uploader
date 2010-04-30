@@ -1,0 +1,27 @@
+*{
+  Manage a drag and drop asynchronous file uploader
+  If drag and drop is not supported, an asynchronous input file is used
+  
+  Using this tag, you have to import postFile.js script
+  otherwise, or if javascript is not enabled, a simple input type file is used.
+  
+  To be disabled javascript compliant,
+  this tag MUST NOT be include in a form element, because form containing form is forbidden.
+  
+  @param destUrl : the url to send datas
+  @param name (optional) : the name input value (default is set to 'file')
+  @param accept (optional) : accept mimetypes (all accept by default)
+  
+  @author Renaudeau Gaetan <gre@zenexity.fr> - Zenexity - 2010
+}*
+%{
+  hasBody = !!_body
+  
+}%
+
+#{if hasBody}
+  #{doBody /}
+#{/if}
+#{else}
+  <div id="visual" class="drop">Drop here</div>
+#{/else}
