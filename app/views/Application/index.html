@@ -2,22 +2,33 @@
 #{set title:'Home' /}
 
 #{set 'moreScripts'}
+  #{script 'jquery.form.js' /}
+  #{script 'jquery.ndd.js' /}
   #{script 'postFile.js' /}
 #{/set}
 
-#{postFile 
-  name:'contact.photo', 
-  accept: ['image/jpeg', 'image/png'], 
-  destUrl: @Application.upload }
-  
-    <div id="visual" class="drop">Drop here</div>
+<style>
 
+.postFile .success {
+  color: green;
+}
+.postFile .error {
+  color: red;
+}
+.dropzone {
+  padding: 5px;
+  border: #aaa 1px solid;
+  background: #ccc;
+}
+</style>
+
+
+<div>
+<h2>Any file</h2>
+
+#{postFile destUrl: @Application.postFile() }
+  <img src="/public/images/postFileLoad.gif" class="postFileLoad" style="display: none;"/>
+  <div class="message"></div>
 #{/postFile}
 
-
-<hr/>
-
-#{postFile 
-  name:'contact.photo', 
-  accept: ['image/jpeg', 'image/png'], 
-  destUrl: @Application.upload /}
+</div>

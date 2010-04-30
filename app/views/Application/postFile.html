@@ -1,0 +1,15 @@
+
+<span class="${status == "sent" ? 'success' : 'error'}">
+#{if status == "fileRequired"}
+  Fichier requis.
+#{/if}
+#{if status == "fileExists"}
+  Ce fichier a déjà été envoyé.
+#{/if}
+#{if status == "internalError"}
+  Erreur à l'enregistrement du fichier.
+#{/if}
+#{if status == "sent"}
+  Fichier envoyé avec succès
+#{/if}
+</span>

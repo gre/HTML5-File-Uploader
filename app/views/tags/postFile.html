@@ -9,19 +9,44 @@
   this tag MUST NOT be include in a form element, because form containing form is forbidden.
   
   @param destUrl : the url to send datas
+  @param displayMode (optional): 
+                      * 'input'    : only input file type is available
+                      * 'dropzone' : dropzone is available if supported, else input is used
+                      * 'both' (default) : both are avalaible if supported 
   @param name (optional) : the name input value (default is set to 'file')
   @param accept (optional) : accept mimetypes (all accept by default)
+  @param dropzoneText (optional) : text to display into dropzone
   
   @author Renaudeau Gaetan <gre@zenexity.fr> - Zenexity - 2010
 }*
 %{
-  hasBody = !!_body
+  if(! _destUrl) {
+    throw new play.exceptions.TagInternalException("destUrl attribute cannot be empty for postFile tag");
+  }
   
+  destUrl = _destUrl
+  hasBody = !!_body
+  name = _name ?: 'file'
+  
+  displayMode
+  
+  displayMode = 'input'
+  
+  dropzoneText = _dropzoneText ?: 'Drop file here...'
 }%
 
-#{if hasBody}
-  #{doBody /}
-#{/if}
-#{else}
-  <div id="visual" class="drop">Drop here</div>
-#{/else}
+<div class="postFile">
+#{form destUrl}
+  <input type="file" name="${name}" #{if displayMode=='dropzone'}class="hideIfDropSupported"#{/if} />
+  #{if displayMode!='input'}
+  <div class="dropzone">${dropzoneText}</div>
+  #{/if}
+  #{if hasBody}
+    #{doBody /}
+  #{/if}
+  #{else}
+    <img src="/public/images/postFileLoad.gif" class="postFileLoad" style="display: none;"/>
+    <div class="message"></div>
+  #{/else}
+#{/form}
+</div>
