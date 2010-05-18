@@ -39,7 +39,7 @@
 #{form destUrl}
   <input type="file" name="${name}" #{if displayMode=='dropzone'}class="hideIfDropSupported"#{/if} />
   #{if displayMode!='input'}
-  <div class="dropzone" accept="${accept}" name="${name}">${dropzoneText}</div>
+  <div class="dropzone hideIfDropNotSupported" accept="${accept}" name="${name}">${dropzoneText}</div>
   #{/if}
   #{if hasBody}
     #{doBody /}
@@ -48,6 +48,9 @@
     <img src="/public/images/postFileLoad.gif" class="postFileLoad" style="display: none;"/>
     <div class="message"></div>
   #{/else}
+  <div class="removeIfAsynchronous">
+    <input type="hidden" name="isSynchronous" value="true" />
+    <button type="submit">Envoyer</button>
+  </div>
 #{/form}
-<progress>todo</progress>
 </div>

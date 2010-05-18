@@ -12,6 +12,7 @@
     
     var isSupported_FormData = typeof(FormData)!="undefined";
     //var isSupported_DataTransfert = typeof(DataTransfert)!="undefined";
+    var isSupported_DragAndDrop = ('draggable' in document.createElement('span'));
     
     /**
      * file can be :
@@ -34,25 +35,20 @@
         var xhr = new XMLHttpRequest();
         xhr.open(method, action);  
         xhr.send(formdata);
-        
       }
       else {
-          if( (file instanceof HTMLElement) || (file instanceof jQuery) ) {
-            log("uploading with ajaxSubmit");
-            $(form).ajaxSubmit({
-              beforeSubmit: function() {
-                $('.message', form).empty();
-                $('img.postFileLoad', form).show();
-              },
-              success: function(responseText, statusText, xhr) {
-                $('input', xhr).val('');
-                $('img.postFileLoad', form).hide();
-                $('.message', form).append(responseText);
-              }
-            });
+        log("uploading with ajaxSubmit");
+        $(form).ajaxSubmit({
+          beforeSubmit: function() {
+            $('.message', form).empty();
+            $('img.postFileLoad', form).show();
+          },
+          success: function(responseText, statusText, xhr) {
+            $('input', xhr).val('');
+            $('img.postFileLoad', form).hide();
+            $('.message', form).append(responseText);
           }
-          else
-            log("unsupported type of variable file:"+file);
+        });
       }
       
     };
@@ -65,25 +61,33 @@
         $('.postFile form').each(function(){
           var form = $(this);
           
+          $('.removeIfAsynchronous').remove();
+          
           $('input', form).val('').change(function(){
-            upload(this.files[0], form);
+            upload(this.files ? this.files[0] : null, form);
           });
           
-          $('.dropzone', form).each(function(){
-              $(this).droppable($(this).attr('accept'),
-                  // Drag enter
-                  function(e) {
-                      $(this).addClass('filehover');
-                  },
-                  // Drag leave
-                  function() {
-                      $(this).removeClass('filehover');
-                  },
-                  // Drop!
-                  function(e) {
-                    upload(e.dataTransfer.files[0], form);
-                  });
-          });
+          if(isSupported_DragAndDrop) {
+            $('.hideIfDropSupported', form).hide();
+            $('.dropzone', form).each(function(){
+                $(this).droppable($(this).attr('accept'),
+                    // Drag enter
+                    function(e) {
+                        $(this).addClass('filehover');
+                    },
+                    // Drag leave
+                    function() {
+                        $(this).removeClass('filehover');
+                    },
+                    // Drop!
+                    function(e) {
+                      upload(e.dataTransfer.files[0], form);
+                    });
+            });
+          }
+          else {
+            $('.hideIfDropNotSupported', form).hide();
+          }
         });
                 
       }
