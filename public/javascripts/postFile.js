@@ -14,12 +14,12 @@
       
       var beforeUpload = function(){
           $('.message', form).empty();
-          $('img.postFileLoad', form).show();
+          $('.showWhenUploadingBegin', form).show();
       };
       var onSuccessUpload = function(responseText, readyState){
         if(readyState===4 || readyState==="success"/* for $.ajaxSubmit */ ) {
           $('input',form).val('');
-          $('img.postFileLoad', form).hide();
+          $('.hideWhenUploadingEnd', form).hide();
           $('.message', form).empty().append(responseText);
         }
       };

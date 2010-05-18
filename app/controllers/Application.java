@@ -15,7 +15,10 @@ import play.libs.Files;
 import play.libs.IO;
 import play.libs.Images;
 
-
+/**
+ * A sample controller for file upload
+ * @author gre
+ */
 public class Application extends Controller {
     
     
@@ -47,7 +50,9 @@ public class Application extends Controller {
         render();
     }
     
-    public static void postFile(File file) {
+    public static void postFile(File file, boolean isSynchronous) {
+        if(isSynchronous)
+            index(); // when sending a file synchronously, redirect to index
         String status = "";
         if (file == null) {
             status = "fileRequired";
@@ -64,7 +69,8 @@ public class Application extends Controller {
         }
         Logger.info("postedFile : %s", f.getPath());
         status = "sent";
-        render(status);
+        String fileName = f.getName();
+        render(status, fileName);
     }
 
 }

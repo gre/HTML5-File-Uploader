@@ -16,6 +16,8 @@
   @param name (optional) : the name input value (default is set to 'file')
   @param accept (optional) : accept mimetypes (all accept by default (set to 'Files') )
   @param dropzoneText (optional) : text to display into dropzone
+  @param body (optional) : set content between #{postFile}...#{/postFile} 
+                           if you want to manage yourself the message zone and the loading image
   
   @author Renaudeau Gaetan <gre@zenexity.fr> - Zenexity - 2010
 }*
@@ -45,7 +47,7 @@
     #{doBody /}
   #{/if}
   #{else}
-    <img src="/public/images/postFileLoad.gif" class="postFileLoad" style="display: none;"/>
+    <img src="/public/images/postFileLoad.gif" class="showWhenUploadingBegin hideWhenUploadingEnd" style="display: none;"/>
     <div class="message"></div>
   #{/else}
   <div class="removeIfAsynchronous">
