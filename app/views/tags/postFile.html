@@ -39,7 +39,7 @@
 #{form destUrl}
   <input type="file" name="${name}" #{if displayMode=='dropzone'}class="hideIfDropSupported"#{/if} />
   #{if displayMode!='input'}
-  <div class="dropzone" accept="${accept}">${dropzoneText}</div>
+  <div class="dropzone" accept="${accept}" name="${name}">${dropzoneText}</div>
   #{/if}
   #{if hasBody}
     #{doBody /}
@@ -49,4 +49,5 @@
     <div class="message"></div>
   #{/else}
 #{/form}
+<progress>todo</progress>
 </div>
