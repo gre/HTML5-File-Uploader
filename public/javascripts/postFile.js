@@ -1,17 +1,8 @@
 (function(){
   
-  var DEBUG = true;
-  
-  
-  var log = (!DEBUG||typeof(console)=="undefined"||typeof(console['log'])=="undefined") 
-            ? function(){}
-            : console.log;
-  
-  
   var PostFile = function() {
     
     var isSupported_FormData = typeof(FormData)!="undefined";
-    //var isSupported_DataTransfert = typeof(DataTransfert)!="undefined";
     var isSupported_DragAndDrop = ('draggable' in document.createElement('span'));
     
     /**
@@ -28,7 +19,6 @@
       var action = form.attr('action') || window.location.pathname;
       
       if(isSupported_FormData) {
-        log("uploading with FormData");
         // FormData supported
         var formdata = new FormData();
         formdata.append(name, file);
@@ -37,7 +27,6 @@
         xhr.send(formdata);
       }
       else {
-        log("uploading with ajaxSubmit");
         $(form).ajaxSubmit({
           beforeSubmit: function() {
             $('.message', form).empty();
@@ -52,7 +41,6 @@
       }
       
     };
-    
     
     return {
       
@@ -70,14 +58,17 @@
           if(isSupported_DragAndDrop) {
             $('.hideIfDropSupported', form).hide();
             $('.dropzone', form).each(function(){
-                $(this).droppable($(this).attr('accept'),
+                
+                //$(this).droppable( // THERE IS A BUG, TEMPORARY COMMENT AND REPLACED BY .dropzone selector
+                $('.dropzone').droppable(
+                    $(this).attr('accept'),
                     // Drag enter
-                    function(e) {
-                        $(this).addClass('filehover');
+                    function() {
+                      $(this).addClass('filehover');
                     },
                     // Drag leave
                     function() {
-                        $(this).removeClass('filehover');
+                      $(this).removeClass('filehover');
                     },
                     // Drop!
                     function(e) {

@@ -7,6 +7,7 @@
   #{script 'postFile.js' /}
 #{/set}
 
+#{set 'moreStyles'}
 <style>
 
 .postFile .success {
@@ -15,7 +16,7 @@
 .postFile .error {
   color: red;
 }
-.dropzone {
+.postFile .dropzone {
   margin: 5px;
   padding: 5px;
   border: #aaa 1px solid;
@@ -25,10 +26,10 @@
   background: #eee;
 }
 </style>
-
+#{/set}
 
 <div style="width: 300px; margin: 0 auto;">
-<h2>Any file</h2>
+<h2>Select a file</h2>
 
 #{postFile destUrl: @Application.postFile() /}
 
