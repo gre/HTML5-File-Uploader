@@ -11,6 +11,19 @@
      *  - a DataTransfert
      */
     var upload = function(file, form) {
+      
+      var beforeUpload = function(){
+          $('.message', form).empty();
+          $('img.postFileLoad', form).show();
+      };
+      var onSuccessUpload = function(responseText, readyState){
+        if(readyState===4 || readyState==="success"/* for $.ajaxSubmit */ ) {
+          $('input',form).val('');
+          $('img.postFileLoad', form).hide();
+          $('.message', form).empty().append(responseText);
+        }
+      };
+      
       if(file instanceof jQuery)
         file = file[0];
       
@@ -22,21 +35,18 @@
         // FormData supported
         var formdata = new FormData();
         formdata.append(name, file);
+        beforeUpload();
         var xhr = new XMLHttpRequest();
-        xhr.open(method, action);  
+        xhr.onreadystatechange = function(){
+          onSuccessUpload(xhr.responseText, xhr.readyState);
+        };
+        xhr.open(method, action);
         xhr.send(formdata);
       }
       else {
         $(form).ajaxSubmit({
-          beforeSubmit: function() {
-            $('.message', form).empty();
-            $('img.postFileLoad', form).show();
-          },
-          success: function(responseText, statusText, xhr) {
-            $('input', xhr).val('');
-            $('img.postFileLoad', form).hide();
-            $('.message', form).append(responseText);
-          }
+          beforeSubmit: beforeUpload,
+          success: onSuccessUpload
         });
       }
       
@@ -51,7 +61,7 @@
           
           $('.removeIfAsynchronous').remove();
           
-          $('input', form).val('').change(function(){
+          $('input', form).change(function(){
             upload(this.files ? this.files[0] : null, form);
           });
           
